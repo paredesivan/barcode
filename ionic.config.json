@@ -1,7 +1,9 @@
 {
   "name": "nuevo",
   "app_id": "4362034f",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic1",
   "watchPatterns": [
     "scss/**/*",
