@@ -1,4 +1,12 @@
 {
   "name": "nuevo",
-  "app_id": "4362034f"
+  "app_id": "4362034f",
+  "integrations": {},
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*",
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
+  ]
 }
