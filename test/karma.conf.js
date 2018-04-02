@@ -15,12 +15,14 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      '../www/lib/ionic/js/ionic.bundle.js', // Dependencia
+      '../www/lib/ionic/js/ionic.bundle.min.js', // Dependencia
       //'../www/lib/angular-mocks/angular-mocks.js', // Auxiliar
       //'../www/lib/angular-local-storage/dist/angular-local-storage.min.js', // Auxiliar
       //'../www/js/app.js', // Aut aplicacion bajo test
       //'../www/js/services/LocalService.js', // Aut
-      '../test/**/*.js' // tests de jasmine
+      '../www/js/prueba.js',
+      '../www/js/moduloPrueba.js',
+      '../test/**/*.js', // tests de jasmine
 
     ],
 
