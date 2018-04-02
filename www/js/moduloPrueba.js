@@ -1,5 +1,5 @@
 angular.module('moduloPrueba', [])
-  .factory('asincronico', function($q) {
+  .factory('asincronico', function($q,$timeout) {
 
 
   return {

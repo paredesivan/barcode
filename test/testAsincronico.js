@@ -52,6 +52,7 @@ describe('description', function () {
   var asi;
   var root;
   var res;
+  var ti;
 
   beforeEach(function () {
     module('moduloPrueba');
@@ -72,6 +73,33 @@ describe('description', function () {
       expect(res).toEqual(79);
       expect(res).not.toEqual(123);
     }, 100);
+  })
+});
+
+// funcionando. en moduloprueba hay que envolver el retorno con $timeout
+xdescribe('description', function () {
+  var asi;
+  var root;
+  var res;
+  var ti;
+
+  beforeEach(function () {
+    module('moduloPrueba');
+    inject(function (asincronico, $rootScope,$timeout) {
+      root = $rootScope;
+      asi = asincronico;
+      ti = $timeout;
+    })
+  });
+
+  it('should ', function () {
+    asi.tes().then(function (resp) {
+      expect(resp).toEqual(79);
+      expect(resp).not.toEqual(123);
+    });
+
+    ti.flush();
+    root.$digest();
 
   });
 
