@@ -52,19 +52,14 @@ describe('description', function () {
   var asi;
   var root;
   var res;
-  var pro;
-
 
   beforeEach(function () {
     module('moduloPrueba');
-
+    inject(function (asincronico, $rootScope) {
+      root = $rootScope;
+      asi = asincronico;
+    })
   });
-
-  beforeEach(inject(function (asincronico, $rootScope) {
-    root = $rootScope;
-    asi = asincronico;
-
-  }));
 
   it('should ', function (done) {
     asi.tes().then(function (resp) {
@@ -76,10 +71,9 @@ describe('description', function () {
       root.$digest();
       expect(res).toEqual(79);
       expect(res).not.toEqual(123);
-    }, 200);
+    }, 100);
 
   });
-
 
 });
 
