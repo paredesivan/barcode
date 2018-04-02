@@ -48,49 +48,44 @@
 // });
 
 
-describe('description', function() {
+describe('description', function () {
   var asi;
   var root;
   var res;
   var pro;
 
 
-
-  beforeEach(function(){
+  beforeEach(function () {
     module('moduloPrueba');
 
   });
 
-  beforeEach(inject(function (asincronico,$rootScope) {
+  beforeEach(inject(function (asincronico, $rootScope) {
     root = $rootScope;
     asi = asincronico;
 
   }));
 
-    it('should ', function (done) {
-      asi.tes().then(function(resp) {
-        res = resp;
-        done();
-        root.$digest();
-        expect(res).toEqual(79);
-      });
+  it('should ', function (done) {
+    asi.tes().then(function (resp) {
+      res = resp;
+      done();
     });
 
+    setTimeout(function () {
+      root.$digest();
+      expect(res).toEqual(79);
+      expect(res).not.toEqual(123);
+    }, 200);
 
+  });
 
-    setTimeout(function(){
-        root.$digest();
-        expect(res).toEqual(79);
-        },500);
 
 });
 
 
-
-
-
-xdescribe('Test to print out jasmine version', function() {
-  it('prints jasmine version', function() {
+xdescribe('Test to print out jasmine version', function () {
+  it('prints jasmine version', function () {
     console.log('jasmine-version:' + jasmine.version);
   });
 });
