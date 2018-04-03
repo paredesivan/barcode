@@ -48,11 +48,16 @@
 // });
 
 
+// pasos:
+// 1-declarar variables
+// 2-inyectar rootscope y servicio
+// 3-en el it llamar a la funcion y el resultado guardarlo en una variable
+// 4-en un settimeout realizar el espect de esa variable
 describe('description', function () {
+  // declarar variables
   var asi;
   var root;
   var res;
-  var ti;
 
   beforeEach(function () {
     module('moduloPrueba');
