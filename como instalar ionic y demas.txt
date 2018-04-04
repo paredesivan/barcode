@@ -1,0 +1,7 @@
+bajar android studio
+instalar jdk:http://www.oracle.com/technetwork/java/javase/downloads/index.html
+agregar variables de usuario: ANDROID_HOME D:\Android
+			      JAVA_HOME D:\Program Files\Java\jdk1.8.0_162
+agregar variables de sistema Path D:\Android\tools;D:\Android\platform-tools;D:\Program Files\Java\jdk1.8.0_162\bin
+bajar el driver del celular:http://consumer.huawei.com/minisite/HiSuite_en/index.html
+bajar ionic: npm install ionic -g
