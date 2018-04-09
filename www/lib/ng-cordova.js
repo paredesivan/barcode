@@ -2,12 +2,20 @@
 angular.module('ngCordova', [
   'ngCordova.plugins'
 ]);
-angular.module('ngCordova.plugins', [	 'sqlite']);//#### Begin Individual Plugin Code ####// install   :      cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage.git
+
+
+angular.module('ngCordova.plugins', [
+	 'sqlite'
+]);
+
+//#### Begin Individual Plugin Code ####
+
+// install   :      cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage.git
 // link      :      https://github.com/litehelpers/Cordova-sqlite-storage
 
 angular.module('ngCordova.plugins.sqlite', [])
 
-  .factory('$cordovaSQLite', ['$q', '$window', function ($q, $window) {
+  .factory('sql', ['$q', '$window', function ($q, $window) {
 
     return {
       openDB: function (options, background) {

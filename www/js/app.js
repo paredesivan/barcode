@@ -5,10 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ngCordova.plugins.sqlite', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic','ngCordova.plugins.sqlite', 'starter.services'])
 
   .run(function ($ionicPlatform,
-                 $cordovaSQLite) {
+                 sql,$rootScope) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -22,46 +22,55 @@ angular.module('starter', ['ionic','ngCordova.plugins.sqlite', 'starter.controll
         StatusBar.styleDefault();
       }
 
-      window.sqlitePlugin.echoTest(function() {
-        console.log('ECHO test OK');
-      });
-
-      var opciones = {name: "my.db", location:'default'};
-      var db = $cordovaSQLite.openDB(opciones);
 
 
-      var query = 'CREATE TABLE IF NOT EXISTS productos (id integer primary key, data text, data_num integer)';
-      $cordovaSQLite.execute(db, query).then(function (res) {
+      var opciones = {name: "my2.db", location:'default'};
+
+
+      if (window.cordova && window.SQLitePlugin) {
+        $rootScope.db = sql.openDB(opciones);
+
+      } else {
+        //var dbShell = window.openDatabase(database_name, database_version, database_displayname, database_size);
+        $rootScope.db = window.openDatabase("my2.db", '1.0', "my2.db", 8 * 1024 * 1024);
+
+      }
+
+      var query = 'CREATE TABLE IF NOT EXISTS productos (codigoBarras integer primary key, fecha date)';
+      sql.execute($rootScope.db, query).then(function (res) {
         console.log('ok')
       }, function (err) {
         console.error(err);
       });
 
 
-      cordova.plugins.barcodeScanner.scan(
-        function (result) {
-          alert("We got a barcode\n" +
-            "Result: " + result.text + "\n" +
-            "Format: " + result.format + "\n" +
-            "Cancelled: " + result.cancelled);
-        },
-        function (error) {
-          console.log("Scanning failed: " + error);
-        },
-        {
-          preferFrontCamera: true, // iOS and Android
-          showFlipCameraButton: true, // iOS and Android
-          showTorchButton: true, // iOS and Android
-          torchOn: true, // Android, launch with the torch switched on (if available)
-          saveHistory: true, // Android, save scan history (default false)
-          prompt: "Place a barcode inside the scan area", // Android
-          resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
-          formats: "EAN_13", // default: all but PDF_417 and RSS_EXPANDED
-          orientation: "landscape", // Android only (portrait|landscape), default unset so it rotates with the device
-          disableAnimations: true, // iOS
-          disableSuccessBeep: false // iOS and Android
-        }
-      );
+
+
+
+      // cordova.plugins.barcodeScanner.scan(
+      //   function (result) {
+      //     alert("We got a barcode\n" +
+      //       "Result: " + result.text + "\n" +
+      //       "Format: " + result.format + "\n" +
+      //       "Cancelled: " + result.cancelled);
+      //   },
+      //   function (error) {
+      //     console.log("Scanning failed: " + error);
+      //   },
+      //   {
+      //     preferFrontCamera: true, // iOS and Android
+      //     showFlipCameraButton: true, // iOS and Android
+      //     showTorchButton: true, // iOS and Android
+      //     torchOn: true, // Android, launch with the torch switched on (if available)
+      //     saveHistory: true, // Android, save scan history (default false)
+      //     prompt: "Place a barcode inside the scan area", // Android
+      //     resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+      //     formats: "EAN_13", // default: all but PDF_417 and RSS_EXPANDED
+      //     orientation: "landscape", // Android only (portrait|landscape), default unset so it rotates with the device
+      //     disableAnimations: true, // iOS
+      //     disableSuccessBeep: false // iOS and Android
+      //   }
+      // );
     });
   })
 
@@ -87,40 +96,11 @@ angular.module('starter', ['ionic','ngCordova.plugins.sqlite', 'starter.controll
         views: {
           'tab-dash': {
             templateUrl: 'templates/tab-dash.html',
-            controller: 'DashCtrl'
+            controller: 'dash.controller'
           }
         }
       })
 
-      .state('tab.chats', {
-        url: '/chats',
-        cache: false,
-        views: {
-          'tab-chats': {
-            templateUrl: 'templates/tab-chats.html',
-            controller: 'ChatsCtrl'
-          }
-        }
-      })
-      .state('tab.chat-detail', {
-        url: '/chats/:chatId',
-        views: {
-          'tab-chats': {
-            templateUrl: 'templates/chat-detail.html',
-            controller: 'ChatDetailCtrl'
-          }
-        }
-      })
-
-      .state('tab.account', {
-        url: '/account',
-        views: {
-          'tab-account': {
-            templateUrl: 'templates/tab-account.html',
-            controller: 'AccountCtrl'
-          }
-        }
-      });
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/dash/');

@@ -1,4 +1,4 @@
-bajar e instalar android studio
+bajar e instalar android studio. e instalar los paquetes como menciona la imagen 'instalacion de sdk.png'
 instalar jdk:http://www.oracle.com/technetwork/java/javase/downloads/index.html
 agregar variables de usuario: ANDROID_HOME D:\Android
 			      JAVA_HOME D:\Program Files\Java\jdk1.8.0_162
