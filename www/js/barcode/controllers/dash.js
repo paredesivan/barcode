@@ -16,11 +16,11 @@ function dash($scope,sql,$rootScope){
 
   function guardar(){
 
-      var query = "INSERT INTO productos (codigoBarras, fecha) VALUES (?,?)";
-      sql.execute($rootScope.db, query, [4, $scope.fe.lp]).then(function(res) {
-        console.log("insertId: " + res.insertId);
+      // var query = "INSERT INTO productos (codigoBarras, fecha) VALUES (?,?)";
+      // sql.execute($rootScope.db, query, [6, $scope.fe.lp]).then(function(res) {
+      //   console.log("insertId: " + res.insertId);
 
-        query= "select * from productos";
+        var query= "select * from productos";
         sql.execute($rootScope.db,query).then(function(data){
           console.log(JSON.stringify(data));
 
@@ -28,13 +28,15 @@ function dash($scope,sql,$rootScope){
             var codigoBarras = data.rows.item(i).codigoBarras;
             var fecha = data.rows.item(i).fecha;
 
+            $scope.fe.lp = new Date(fecha);
+
             console.log("codigoBarras:"+codigoBarras);
-            console.log("fecha:"+fecha)
+            console.log("fecha:" + fecha)
           }
 
-        },function(){
-          console.log("salio mal")
-        })
+        // },function(){
+        //   console.log("salio mal")
+        // })
 
 
       }, function (err) {
