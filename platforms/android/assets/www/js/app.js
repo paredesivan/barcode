@@ -1,14 +1,8 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ngCordova.plugins.sqlite', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'orm','barcode'])
 
   .run(function ($ionicPlatform,
-                 $cordovaSQLite) {
+                 orm,
+  ) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -22,46 +16,33 @@ angular.module('starter', ['ionic','ngCordova.plugins.sqlite', 'starter.controll
         StatusBar.styleDefault();
       }
 
-      window.sqlitePlugin.echoTest(function() {
-        console.log('ECHO test OK');
-      });
+      inicializar();
 
-      var opciones = {name: "my.db", location:'default'};
-      var db = $cordovaSQLite.openDB(opciones);
-
-
-      var query = 'CREATE TABLE IF NOT EXISTS productos (id integer primary key, data text, data_num integer)';
-      $cordovaSQLite.execute(db, query).then(function (res) {
-        console.log("insertId: " + res.insertId);
-      }, function (err) {
-        console.error(err);
-      });
+      function inicializar() {
+        abrirBd();
+        crearTabla()
+          .then(select("produc")
+            .then(function (res) {
+              console.log("resu:" + JSON.stringify(res));
+            }).catch(function () {
+              console.log("mal")
+            }))
+      }
 
 
-      cordova.plugins.barcodeScanner.scan(
-        function (result) {
-          alert("We got a barcode\n" +
-            "Result: " + result.text + "\n" +
-            "Format: " + result.format + "\n" +
-            "Cancelled: " + result.cancelled);
-        },
-        function (error) {
-          console.log("Scanning failed: " + error);
-        },
-        {
-          preferFrontCamera: true, // iOS and Android
-          showFlipCameraButton: true, // iOS and Android
-          showTorchButton: true, // iOS and Android
-          torchOn: true, // Android, launch with the torch switched on (if available)
-          saveHistory: true, // Android, save scan history (default false)
-          prompt: "Place a barcode inside the scan area", // Android
-          resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
-          formats: "EAN_13", // default: all but PDF_417 and RSS_EXPANDED
-          orientation: "landscape", // Android only (portrait|landscape), default unset so it rotates with the device
-          disableAnimations: true, // iOS
-          disableSuccessBeep: false // iOS and Android
-        }
-      );
+      function abrirBd() {
+        orm.abrirBD("my2.db");
+      }
+
+      function crearTabla() {
+        return orm.crearTabla()
+      }
+
+      function select(tabla) {
+        return orm.select(tabla)
+      }
+
+
     });
   })
 
@@ -81,46 +62,16 @@ angular.module('starter', ['ionic','ngCordova.plugins.sqlite', 'starter.controll
       })
 
       // Each tab has its own nav history stack:
-
       .state('tab.dash', {
         url: '/dash/:op',
         views: {
           'tab-dash': {
             templateUrl: 'templates/tab-dash.html',
-            controller: 'DashCtrl'
-          }
-        }
-      })
-
-      .state('tab.chats', {
-        url: '/chats',
-        cache: false,
-        views: {
-          'tab-chats': {
-            templateUrl: 'templates/tab-chats.html',
-            controller: 'ChatsCtrl'
-          }
-        }
-      })
-      .state('tab.chat-detail', {
-        url: '/chats/:chatId',
-        views: {
-          'tab-chats': {
-            templateUrl: 'templates/chat-detail.html',
-            controller: 'ChatDetailCtrl'
-          }
-        }
-      })
-
-      .state('tab.account', {
-        url: '/account',
-        views: {
-          'tab-account': {
-            templateUrl: 'templates/tab-account.html',
-            controller: 'AccountCtrl'
+            controller: 'dash.controller'
           }
         }
       });
+
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/dash/');
